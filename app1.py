@@ -2,11 +2,15 @@ from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+
+#connecting to flask and database
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
+
+#sqlite Tables
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     content = db.Column(db.String(200), nullable = True)
@@ -15,6 +19,8 @@ class Todo(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id 
 
+
+#routes
 @app.route("/", methods=['POST','GET'])
 def index():
     if request.method == 'POST':
@@ -55,5 +61,6 @@ def d(id):
         return "Hmm seems like there is a problem while delting the data"
 
 
+#running server
 if __name__ == "__main__":
     app.run(debug=True)
